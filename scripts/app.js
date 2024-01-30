@@ -22,7 +22,11 @@ const FetchPoke = async (input) => {
     const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${input}`);
     const data = await promise.json();
 
+    // if (data.id > 649) {
+    // namePoke.innerText = "Pokemon Is Not Available"
+    // } else {
     PopPoke(data);
+    // }
 };
 
 searchBtn.addEventListener('click', () => {
@@ -77,16 +81,17 @@ const popLocate = async (topData) => {
     const promise = await fetch(`${topData.location_area_encounters}`);
     const data = await promise.json();
 
-    let locationName = data[0].location_area.name.split("-").join(" ");
-    let versionName = data[0].version_details[0].version.name[0].toUpperCase() + data[0].version_details[0].version.name.substring(1);
+    if (data[0]?.location_area?.name !== undefined) {
+        let locationName = data[0].location_area.name.split("-").join(" ");
+        findLocation.innerText = locationName + ", Pokemon " + data[0].version_details[0].version.name[0].toUpperCase() + data[0].version_details[0].version.name.substring(1);
+    } else {
+        findLocation.innerText = "N/A"
+    }
 
     // for (let i = 0; i < locationName.length; i++){
     //     location[i] = locationName[i][0].toUpperCase() + locationName[i].substring(1);
     //     console.log(locationName);
-
     // }
-
-    findLocation.innerText = locationName + ", Pokemon " + versionName;
 };
 
 const popEvol = async (topData) => {
@@ -96,23 +101,43 @@ const popEvol = async (topData) => {
     const promiseTwo = await fetch(`${dataOne.evolution_chain.url}`);
     const dataTwo = await promiseTwo.json();
 
-    if (dataTwo?.chain?.evolves_to[0]?.evolves_to[0]?.species?.name !== undefined) {
-        evol.innerText = dataTwo.chain.species.name + " to " + dataTwo.chain.evolves_to[0].species.name + " to " + dataTwo.chain.evolves_to[0].evolves_to[0].species.name;
-    } else {
-        if (dataTwo?.chain?.evolves_to[0]?.species?.name !== undefined) {
-            evol.innerText = dataTwo.chain.species.name;
-            for (let i = 0; i < dataTwo.chain.evolves_to.length; i++) {
-                switch (i) {
-                    case 0:
-                        evol.innerText += " to " + dataTwo.chain.evolves_to[i].species.name;
-                        break;
-                    default:
-                        evol.innerText += "; " + dataTwo.chain.evolves_to[i].species.name;
-                        break;
-                };
+    if (dataTwo?.chain?.evolves_to[0]?.species?.name !== undefined) {
+        evol.innerText = dataTwo.chain.species.name;
+        for (let i = 0; i < dataTwo.chain.evolves_to.length; i++) {
+            switch (i) {
+                case 0:
+                    evol.innerText += " to " + dataTwo.chain.evolves_to[0].species.name;
+                    if (dataTwo?.chain?.evolves_to[0]?.evolves_to[0]?.species?.name !== undefined) {
+                        for (let j = 0; j < dataTwo.chain.evolves_to[0].evolves_to.length; j++) {
+                            switch (j) {
+                                case 0:
+                                    evol.innerText += " to " + dataTwo.chain.evolves_to[0].evolves_to[0].species.name;
+                                    break;
+                                default:
+                                    evol.innerText += "; " + dataTwo.chain.evolves_to[0].species.name + " to " + dataTwo.chain.evolves_to[0].evolves_to[j].species.name;
+                                    break;
+                            };
+                        };
+                    };
+                    break;
+                default:
+                    evol.innerText += "; " + dataTwo.chain.species.name + " to " + dataTwo.chain.evolves_to[i].species.name;
+                    if (dataTwo?.chain?.evolves_to[i]?.evolves_to[0]?.species?.name !== undefined) {
+                        for (let j = 0; j < dataTwo.chain.evolves_to[i].evolves_to.length; j++) {
+                            switch (j) {
+                                case 0:
+                                    evol.innerText += " to " + dataTwo.chain.evolves_to[i].evolves_to[j].species.name;
+                                    break;
+                                default:
+                                    evol.innerText += "; " + dataTwo.chain.evolves_to[i].species.name + " to " + dataTwo.chain.evolves_to[i].evolves_to[j].species.name;
+                                    break;
+                            };
+                        };
+                    };
+                    break;
             };
-        } else {
-            evol.innerText = "N/A"
         };
+    } else {
+        evol.innerText = "N/A"
     };
 };
