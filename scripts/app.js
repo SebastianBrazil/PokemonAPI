@@ -22,7 +22,6 @@ const FetchPoke = async (input) => {
     const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${input}`);
     const data = await promise.json();
 
-    console.log(data);
     PopPoke(data);
 };
 
@@ -97,25 +96,23 @@ const popEvol = async (topData) => {
     const promiseTwo = await fetch(`${dataOne.evolution_chain.url}`);
     const dataTwo = await promiseTwo.json();
 
-
-    // evol.innerText = dataTwo.chain.species.name;
-    const valueForThree = dataTwo?.chain?.evolves_to[0]?.evolves_to[0]?.species?.name;
-    if(valueForThree !== undefined){
-        evol.innerText = dataTwo.chain.species.name + ", " + dataTwo.chain.evolves_to[0].species.name + ", " + dataTwo.chain.evolves_to[0].evolves_to[0].species.name;
-    }else{
-        const valueForTwo = dataTwo?.chain?.evolves_to[0]?.species?.name;
-        if(valueForTwo !== undefined){
-            // if(1 < dataTwo.chain.evolves_to.length){
-            //     for
-            // }
-
+    if (dataTwo?.chain?.evolves_to[0]?.evolves_to[0]?.species?.name !== undefined) {
+        evol.innerText = dataTwo.chain.species.name + " to " + dataTwo.chain.evolves_to[0].species.name + " to " + dataTwo.chain.evolves_to[0].evolves_to[0].species.name;
+    } else {
+        if (dataTwo?.chain?.evolves_to[0]?.species?.name !== undefined) {
             evol.innerText = dataTwo.chain.species.name;
-
-            for(let i = 0; i < dataTwo.chain.evolves_to.length; i++){
-                evol.innerText += ", " + dataTwo.chain.evolves_to[i].species.name;
-            }
-        }else{
+            for (let i = 0; i < dataTwo.chain.evolves_to.length; i++) {
+                switch (i) {
+                    case 0:
+                        evol.innerText += " to " + dataTwo.chain.evolves_to[i].species.name;
+                        break;
+                    default:
+                        evol.innerText += "; " + dataTwo.chain.evolves_to[i].species.name;
+                        break;
+                };
+            };
+        } else {
             evol.innerText = "N/A"
-        }
-    }
+        };
+    };
 };
