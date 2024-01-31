@@ -11,8 +11,12 @@ let movesPoke = document.getElementById("movesPoke");
 let evol = document.getElementById("evol");
 let favBtn = document.getElementById("favBtn");
 let openFav = document.getElementById("openFav");
+let idPoke = document.getElementById("idPoke");
+let randomPoke = document.getElementById("randomPoke");
 
+let globalPoke = "";
 let savedPokemonArray = [];
+let faveClosed = true;
 
 if (localStorage.getItem("Pokemon")) {
     savedPokemonArray = JSON.parse(localStorage.getItem("Pokemon"));
@@ -22,15 +26,25 @@ const FetchPoke = async (input) => {
     const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${input}`);
     const data = await promise.json();
 
-    // if (data.id > 649) {
-    // namePoke.innerText = "Pokemon Is Not Available"
-    // } else {
-    PopPoke(data);
-    // }
+    if (data.id > 649) {
+        namePoke.innerText = "Pokemon Is Not Available"
+    } else {
+        globalPoke = data.name;
+        PopPoke(data);
+    };
 };
+
+// FetchPoke(1);
 
 searchBtn.addEventListener('click', () => {
     FetchPoke(searchInput.value.toLowerCase());
+    openFav.innerHTML = "";
+});
+
+randomPoke.addEventListener('click', () => {
+    let randomNum = 1 + Math.floor(Math.random() * 649);
+    FetchPoke(randomNum);
+    openFav.innerHTML = "";
 });
 
 const PopPoke = async (data) => {
@@ -38,6 +52,7 @@ const PopPoke = async (data) => {
     shinyFront.src = data.sprites.front_shiny;
 
     namePoke.innerText = data.name[0].toUpperCase() + data.name.substring(1);
+    idPoke.innerText = "ID: #" + data.id;
 
     popLocate(data);
 
@@ -66,10 +81,18 @@ const PopPoke = async (data) => {
     for (let i = 0; i < data.moves.length; i++) {
         switch (i) {
             case 0:
-                movesPoke.innerText = data.moves[i].move.name[0].toUpperCase() + data.moves[i].move.name.substring(1);
+                let allCapsMove = data.moves[i].move.name.split("-");
+                for (let i = 0; i < allCapsMove.length; i++) {
+                    allCapsMove[i] = allCapsMove[i][0].toUpperCase() + allCapsMove[i].substring(1);
+                }
+                movesPoke.innerText = allCapsMove.join("-");
                 break;
             default:
-                movesPoke.innerText += ", " + data.moves[i].move.name[0].toUpperCase() + data.moves[i].move.name.substring(1);
+                let allCapsMoveFollow = data.moves[i].move.name.split("-");
+                for (let i = 0; i < allCapsMoveFollow.length; i++) {
+                    allCapsMoveFollow[i] = allCapsMoveFollow[i][0].toUpperCase() + allCapsMoveFollow[i].substring(1);
+                }
+                movesPoke.innerText += ", " + allCapsMoveFollow.join("-");
                 break;
         };
     };
@@ -82,16 +105,14 @@ const popLocate = async (topData) => {
     const data = await promise.json();
 
     if (data[0]?.location_area?.name !== undefined) {
-        let locationName = data[0].location_area.name.split("-").join(" ");
-        findLocation.innerText = locationName + ", Pokemon " + data[0].version_details[0].version.name[0].toUpperCase() + data[0].version_details[0].version.name.substring(1);
+        let locationName = data[0].location_area.name.split("-");
+        for (let i = 0; i < locationName.length; i++) {
+            locationName[i] = locationName[i][0].toUpperCase() + locationName[i].substring(1);
+        }
+        findLocation.innerText = locationName.join(" ") + ", Pokemon " + data[0].version_details[0].version.name[0].toUpperCase() + data[0].version_details[0].version.name.substring(1);
     } else {
-        findLocation.innerText = "N/A"
-    }
-
-    // for (let i = 0; i < locationName.length; i++){
-    //     location[i] = locationName[i][0].toUpperCase() + locationName[i].substring(1);
-    //     console.log(locationName);
-    // }
+        findLocation.innerText = "N/A";
+    };
 };
 
 const popEvol = async (topData) => {
@@ -102,34 +123,34 @@ const popEvol = async (topData) => {
     const dataTwo = await promiseTwo.json();
 
     if (dataTwo?.chain?.evolves_to[0]?.species?.name !== undefined) {
-        evol.innerText = dataTwo.chain.species.name;
+        evol.innerText = dataTwo.chain.species.name[0].toUpperCase() + dataTwo.chain.species.name.substring(1);
         for (let i = 0; i < dataTwo.chain.evolves_to.length; i++) {
             switch (i) {
                 case 0:
-                    evol.innerText += " to " + dataTwo.chain.evolves_to[0].species.name;
+                    evol.innerText += " to " + dataTwo.chain.evolves_to[0].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[0].species.name.substring(1);
                     if (dataTwo?.chain?.evolves_to[0]?.evolves_to[0]?.species?.name !== undefined) {
                         for (let j = 0; j < dataTwo.chain.evolves_to[0].evolves_to.length; j++) {
                             switch (j) {
                                 case 0:
-                                    evol.innerText += " to " + dataTwo.chain.evolves_to[0].evolves_to[0].species.name;
+                                    evol.innerText += " to " + dataTwo.chain.evolves_to[0].evolves_to[0].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[0].evolves_to[0].species.name.substring(1);
                                     break;
                                 default:
-                                    evol.innerText += "; " + dataTwo.chain.evolves_to[0].species.name + " to " + dataTwo.chain.evolves_to[0].evolves_to[j].species.name;
+                                    evol.innerText += "; " + dataTwo.chain.evolves_to[0].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[0].species.name.substring(1) + " to " + dataTwo.chain.evolves_to[0].evolves_to[j].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[0].evolves_to[j].species.name.substring(1);
                                     break;
                             };
                         };
                     };
                     break;
                 default:
-                    evol.innerText += "; " + dataTwo.chain.species.name + " to " + dataTwo.chain.evolves_to[i].species.name;
+                    evol.innerText += "; " + dataTwo.chain.species.name[0].toUpperCase() + dataTwo.chain.species.name.substring(1) + " to " + dataTwo.chain.evolves_to[i].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[i].species.name.substring(1);
                     if (dataTwo?.chain?.evolves_to[i]?.evolves_to[0]?.species?.name !== undefined) {
                         for (let j = 0; j < dataTwo.chain.evolves_to[i].evolves_to.length; j++) {
                             switch (j) {
                                 case 0:
-                                    evol.innerText += " to " + dataTwo.chain.evolves_to[i].evolves_to[j].species.name;
+                                    evol.innerText += " to " + dataTwo.chain.evolves_to[i].evolves_to[j].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[0].evolves_to[0].species.name.substring(1);
                                     break;
                                 default:
-                                    evol.innerText += "; " + dataTwo.chain.evolves_to[i].species.name + " to " + dataTwo.chain.evolves_to[i].evolves_to[j].species.name;
+                                    evol.innerText += "; " + dataTwo.chain.evolves_to[i].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[i].species.name.substring(1) + " to " + dataTwo.chain.evolves_to[i].evolves_to[j].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[i].evolves_to[j].species.name.substring(1);
                                     break;
                             };
                         };
@@ -141,3 +162,49 @@ const popEvol = async (topData) => {
         evol.innerText = "N/A"
     };
 };
+
+favBtn.addEventListener("click", function (e) {
+    if (globalPoke === "") {
+        console.log("Debug Log");
+    } else 
+    if (globalPoke !== "" && globalPoke !== savedPokemonArray[savedPokemonArray.indexOf(globalPoke)]) {
+        savedPokemonArray.push(globalPoke);
+        localStorage.setItem("Pokemon", JSON.stringify(savedPokemonArray));
+
+        console.log(savedPokemonArray);
+    } else {
+        savedPokemonArray.splice(savedPokemonArray.indexOf(globalPoke), 1);
+        localStorage.setItem("Pokemon", JSON.stringify(savedPokemonArray));
+
+        console.log(savedPokemonArray);
+    };
+});
+
+searchInput.addEventListener("click", function (e) {
+    openFav.innerHTML = "";
+    if (faveClosed) {
+        let holderDiv = document.createElement("div");
+        holderDiv.className = "searchBox";
+
+        for (let i = 0; i < savedPokemonArray.length; i++) {
+            let favedPoke = document.createElement("a");
+            favedPoke.className = "";
+            favedPoke.textContent = savedPokemonArray[i]
+
+            favedPoke.addEventListener("click", function (e) {
+                FetchPoke(favedPoke.innerText);
+                openFav.innerHTML = "";
+                faveClosed = true;
+            });
+            holderDiv.appendChild(favedPoke);
+        };
+        openFav.appendChild(holderDiv);
+        faveClosed = false;
+    } else {
+        faveClosed = true;
+    };
+});
+
+
+
+
