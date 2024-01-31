@@ -13,6 +13,7 @@ let favBtn = document.getElementById("favBtn");
 let openFav = document.getElementById("openFav");
 let idPoke = document.getElementById("idPoke");
 let randomPoke = document.getElementById("randomPoke");
+let response = document.getElementById("response");
 
 let globalPoke = "";
 let savedPokemonArray = [];
@@ -23,21 +24,31 @@ if (localStorage.getItem("Pokemon")) {
 };
 
 const FetchPoke = async (input) => {
-    const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${input}`);
-    const data = await promise.json();
+    try {
+        const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${input}`);
+        const data = await promise.json();
 
-    if (data.id > 649) {
-        namePoke.innerText = "Pokemon Is Not Available"
-    } else {
-        globalPoke = data.name;
-        PopPoke(data);
+        if (data.id > 649) {
+            response.innerText = "Pokemon Is Not Available, Up To Gen 5 Only"
+        } else {
+            globalPoke = data.name;
+            response.innerText = "";
+            searchInput.value = "";
+            PopPoke(data);
+        };
+    } catch {
+        response.innerText = "Could Not Get Pokemon. Check Spelling Or Input Valid ID"
     };
 };
 
 // FetchPoke(1);
 
 searchBtn.addEventListener('click', () => {
-    FetchPoke(searchInput.value.toLowerCase());
+    if (searchInput.value.toLowerCase() !== "") {
+        FetchPoke(searchInput.value.toLowerCase());
+    } else {
+        response.innerText = "Search is Empty";
+    };
     openFav.innerHTML = "";
 });
 
@@ -166,18 +177,18 @@ const popEvol = async (topData) => {
 favBtn.addEventListener("click", function (e) {
     if (globalPoke === "") {
         console.log("Debug Log");
-    } else 
-    if (globalPoke !== "" && globalPoke !== savedPokemonArray[savedPokemonArray.indexOf(globalPoke)]) {
-        savedPokemonArray.push(globalPoke);
-        localStorage.setItem("Pokemon", JSON.stringify(savedPokemonArray));
+    } else
+        if (globalPoke !== "" && globalPoke !== savedPokemonArray[savedPokemonArray.indexOf(globalPoke)]) {
+            savedPokemonArray.push(globalPoke);
+            localStorage.setItem("Pokemon", JSON.stringify(savedPokemonArray));
 
-        console.log(savedPokemonArray);
-    } else {
-        savedPokemonArray.splice(savedPokemonArray.indexOf(globalPoke), 1);
-        localStorage.setItem("Pokemon", JSON.stringify(savedPokemonArray));
+            console.log(savedPokemonArray);
+        } else {
+            savedPokemonArray.splice(savedPokemonArray.indexOf(globalPoke), 1);
+            localStorage.setItem("Pokemon", JSON.stringify(savedPokemonArray));
 
-        console.log(savedPokemonArray);
-    };
+            console.log(savedPokemonArray);
+        };
 });
 
 searchInput.addEventListener("click", function (e) {
