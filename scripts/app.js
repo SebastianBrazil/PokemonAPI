@@ -1,6 +1,6 @@
+// Calls all IDs
 let searchInput = document.getElementById("searchInput");
 let searchBtn = document.getElementById("searchBtn");
-
 let normalFront = document.getElementById("normalFront");
 let shinyFront = document.getElementById("shinyFront");
 let namePoke = document.getElementById("namePoke");
@@ -15,14 +15,17 @@ let idPoke = document.getElementById("idPoke");
 let randomPoke = document.getElementById("randomPoke");
 let response = document.getElementById("response");
 
+//Declares global variables
 let globalPoke = "";
 let savedPokemonArray = [];
 let faveClosed = true;
 
+//Gathers data from local storage
 if (localStorage.getItem("Pokemon")) {
     savedPokemonArray = JSON.parse(localStorage.getItem("Pokemon"));
 };
 
+//Fetches data from the PokiAPI about a pokemon
 const FetchPoke = async (input) => {
     try {
         const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${input}`);
@@ -34,6 +37,14 @@ const FetchPoke = async (input) => {
             globalPoke = data.name;
             response.innerText = "";
             searchInput.value = "";
+            for (let i = 0; i < savedPokemonArray.length; i++) {
+                if (input === savedPokemonArray[i]) {
+                    favBtn.src = "./assets/heart.png"
+                    break;
+                } else {
+                    favBtn.src = "./assets/heartOut.png"
+                }
+            }
             PopPoke(data);
         };
     } catch {
@@ -41,8 +52,10 @@ const FetchPoke = async (input) => {
     };
 };
 
+//Calls on pokemon id#1 every time the website is loaded
 // FetchPoke(1);
 
+//Calls on the fetch function using an image click
 searchBtn.addEventListener('click', () => {
     if (searchInput.value.toLowerCase() !== "") {
         FetchPoke(searchInput.value.toLowerCase());
@@ -50,14 +63,17 @@ searchBtn.addEventListener('click', () => {
         response.innerText = "Search is Empty";
     };
     openFav.innerHTML = "";
+    faveClosed = true;
 });
 
+//Calls on the fetch function and inputs a random ID number
 randomPoke.addEventListener('click', () => {
     let randomNum = 1 + Math.floor(Math.random() * 649);
     FetchPoke(randomNum);
     openFav.innerHTML = "";
 });
 
+//Populates all necessary information onto the page
 const PopPoke = async (data) => {
     normalFront.src = data.sprites.front_default;
     shinyFront.src = data.sprites.front_shiny;
@@ -93,15 +109,15 @@ const PopPoke = async (data) => {
         switch (i) {
             case 0:
                 let allCapsMove = data.moves[i].move.name.split("-");
-                for (let i = 0; i < allCapsMove.length; i++) {
-                    allCapsMove[i] = allCapsMove[i][0].toUpperCase() + allCapsMove[i].substring(1);
+                for (let j = 0; j < allCapsMove.length; j++) {
+                    allCapsMove[j] = allCapsMove[j][0].toUpperCase() + allCapsMove[j].substring(1);
                 }
                 movesPoke.innerText = allCapsMove.join("-");
                 break;
             default:
                 let allCapsMoveFollow = data.moves[i].move.name.split("-");
-                for (let i = 0; i < allCapsMoveFollow.length; i++) {
-                    allCapsMoveFollow[i] = allCapsMoveFollow[i][0].toUpperCase() + allCapsMoveFollow[i].substring(1);
+                for (let j = 0; j < allCapsMoveFollow.length; j++) {
+                    allCapsMoveFollow[j] = allCapsMoveFollow[j][0].toUpperCase() + allCapsMoveFollow[j].substring(1);
                 }
                 movesPoke.innerText += ", " + allCapsMoveFollow.join("-");
                 break;
@@ -111,6 +127,7 @@ const PopPoke = async (data) => {
     popEvol(data);
 };
 
+//Is called in the popPoke, fetches data needed to populate the location
 const popLocate = async (topData) => {
     const promise = await fetch(`${topData.location_area_encounters}`);
     const data = await promise.json();
@@ -126,6 +143,7 @@ const popLocate = async (topData) => {
     };
 };
 
+//Is called in the popPoke, fetches data needed to populate the evolution tree
 const popEvol = async (topData) => {
     const promiseOne = await fetch(`${topData.species.url}`);
     const dataOne = await promiseOne.json();
@@ -134,46 +152,73 @@ const popEvol = async (topData) => {
     const dataTwo = await promiseTwo.json();
 
     if (dataTwo?.chain?.evolves_to[0]?.species?.name !== undefined) {
-        evol.innerText = dataTwo.chain.species.name[0].toUpperCase() + dataTwo.chain.species.name.substring(1);
-        for (let i = 0; i < dataTwo.chain.evolves_to.length; i++) {
-            switch (i) {
-                case 0:
-                    evol.innerText += " to " + dataTwo.chain.evolves_to[0].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[0].species.name.substring(1);
-                    if (dataTwo?.chain?.evolves_to[0]?.evolves_to[0]?.species?.name !== undefined) {
-                        for (let j = 0; j < dataTwo.chain.evolves_to[0].evolves_to.length; j++) {
-                            switch (j) {
-                                case 0:
-                                    evol.innerText += " to " + dataTwo.chain.evolves_to[0].evolves_to[0].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[0].evolves_to[0].species.name.substring(1);
-                                    break;
-                                default:
-                                    evol.innerText += "; " + dataTwo.chain.evolves_to[0].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[0].species.name.substring(1) + " to " + dataTwo.chain.evolves_to[0].evolves_to[j].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[0].evolves_to[j].species.name.substring(1);
-                                    break;
+        const promValy1 = await fetch(`${dataTwo.chain.evolves_to[0].species.url}`);
+        const dataValy1 = await promValy1.json();
+        if (dataValy1.id < 649) {
+            evol.innerText = dataTwo.chain.species.name[0].toUpperCase() + dataTwo.chain.species.name.substring(1);
+            for (let i = 0; i < dataTwo.chain.evolves_to.length; i++) {
+                switch (i) {
+                    case 0:
+                        evol.innerText += " to " + dataTwo.chain.evolves_to[0].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[0].species.name.substring(1);
+                        if (dataTwo?.chain?.evolves_to[0]?.evolves_to[0]?.species?.name !== undefined) {
+                            for (let j = 0; j < dataTwo.chain.evolves_to[0].evolves_to.length; j++) {
+                                switch (j) {
+                                    case 0:
+                                        const promValyInner1 = await fetch(`${dataTwo.chain.evolves_to[0].evolves_to[0].species.url}`);
+                                        const dataValyInner1 = await promValyInner1.json();
+                                        if (dataValyInner1.id < 649) {
+                                            evol.innerText += " to " + dataTwo.chain.evolves_to[0].evolves_to[0].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[0].evolves_to[0].species.name.substring(1);
+                                        };
+                                        break;
+                                    default:
+                                        const promValyInner2 = await fetch(`${dataTwo.chain.evolves_to[0].evolves_to[j].species.url}`);
+                                        const dataValyInner2 = await promValyInner2.json();
+                                        if (dataValyInner2.id < 649) {
+                                            evol.innerText += "; " + dataTwo.chain.evolves_to[0].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[0].species.name.substring(1) + " to " + dataTwo.chain.evolves_to[0].evolves_to[j].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[0].evolves_to[j].species.name.substring(1);
+                                        };
+                                        break;
+                                };
                             };
                         };
-                    };
-                    break;
-                default:
-                    evol.innerText += "; " + dataTwo.chain.species.name[0].toUpperCase() + dataTwo.chain.species.name.substring(1) + " to " + dataTwo.chain.evolves_to[i].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[i].species.name.substring(1);
-                    if (dataTwo?.chain?.evolves_to[i]?.evolves_to[0]?.species?.name !== undefined) {
-                        for (let j = 0; j < dataTwo.chain.evolves_to[i].evolves_to.length; j++) {
-                            switch (j) {
-                                case 0:
-                                    evol.innerText += " to " + dataTwo.chain.evolves_to[i].evolves_to[j].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[0].evolves_to[0].species.name.substring(1);
-                                    break;
-                                default:
-                                    evol.innerText += "; " + dataTwo.chain.evolves_to[i].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[i].species.name.substring(1) + " to " + dataTwo.chain.evolves_to[i].evolves_to[j].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[i].evolves_to[j].species.name.substring(1);
-                                    break;
+                        break;
+                    default:
+                        const promValy2 = await fetch(`${dataTwo.chain.evolves_to[i].species.url}`);
+                        const dataValy2 = await promValy2.json();
+                        if (dataValy2.id < 649) {
+                            evol.innerText += "; " + dataTwo.chain.species.name[0].toUpperCase() + dataTwo.chain.species.name.substring(1) + " to " + dataTwo.chain.evolves_to[i].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[i].species.name.substring(1);
+                            if (dataTwo?.chain?.evolves_to[i]?.evolves_to[0]?.species?.name !== undefined) {
+                                for (let j = 0; j < dataTwo.chain.evolves_to[i].evolves_to.length; j++) {
+                                    switch (j) {
+                                        case 0:
+                                            const promValyInner3 = await fetch(`${dataTwo.chain.evolves_to[i].evolves_to[0].species.url}`);
+                                            const dataValyInner3 = await promValyInner3.json();
+                                            if (dataValyInner3.id < 649) {
+                                                evol.innerText += " to " + dataTwo.chain.evolves_to[i].evolves_to[0].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[i].evolves_to[0].species.name.substring(1);
+                                            };
+                                            break;
+                                        default:
+                                            const promValyInner4 = await fetch(`${dataTwo.chain.evolves_to[i].evolves_to[j].species.url}`);
+                                            const dataValyInner4 = await promValyInner4.json();
+                                            if (dataValyInner4.id < 649) {
+                                                evol.innerText += "; " + dataTwo.chain.evolves_to[i].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[i].species.name.substring(1) + " to " + dataTwo.chain.evolves_to[i].evolves_to[j].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[i].evolves_to[j].species.name.substring(1);
+                                            };
+                                            break;
+                                    };
+                                };
                             };
                         };
-                    };
-                    break;
+                        break;
+                };
             };
+        } else {
+            evol.innerText = "N/A"
         };
     } else {
         evol.innerText = "N/A"
     };
 };
 
+// This adds the current pokemon to the 
 favBtn.addEventListener("click", function (e) {
     if (globalPoke === "") {
         console.log("Debug Log");
@@ -181,11 +226,13 @@ favBtn.addEventListener("click", function (e) {
         if (globalPoke !== "" && globalPoke !== savedPokemonArray[savedPokemonArray.indexOf(globalPoke)]) {
             savedPokemonArray.push(globalPoke);
             localStorage.setItem("Pokemon", JSON.stringify(savedPokemonArray));
+            favBtn.src = "./assets/heart.png"
 
             console.log(savedPokemonArray);
         } else {
             savedPokemonArray.splice(savedPokemonArray.indexOf(globalPoke), 1);
             localStorage.setItem("Pokemon", JSON.stringify(savedPokemonArray));
+            favBtn.src = "./assets/heartOut.png"
 
             console.log(savedPokemonArray);
         };
