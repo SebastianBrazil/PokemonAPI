@@ -18,3 +18,11 @@ body{
 .bgColor{
     background-color: #D9D9D9;
 }
+
+.randColor{
+    background-color: #FF0000;
+}
+
+.searchColor{
+    background-color: #FFB5B5;
+}

@@ -53,7 +53,7 @@ const FetchPoke = async (input) => {
 };
 
 //Calls on pokemon id#1 every time the website is loaded
-FetchPoke(1);
+// FetchPoke(1);
 
 //Calls on the fetch function using an image click
 searchBtn.addEventListener('click', () => {
@@ -86,7 +86,7 @@ const PopPoke = async (data) => {
     for (let i = 0; i < data.types.length; i++) {
         switch (i) {
             case 0:
-                eleType.innerText = data.types[i].type.name[0].toUpperCase() + data.types[i].type.name.substring(1);
+                eleType.innerText = "Type: " + data.types[i].type.name[0].toUpperCase() + data.types[i].type.name.substring(1);
                 break;
             default:
                 eleType.innerText += ", " + data.types[i].type.name[0].toUpperCase() + data.types[i].type.name.substring(1);
@@ -97,7 +97,7 @@ const PopPoke = async (data) => {
     for (let i = 0; i < data.abilities.length; i++) {
         switch (i) {
             case 0:
-                abilities.innerText = data.abilities[i].ability.name[0].toUpperCase() + data.abilities[i].ability.name.substring(1);
+                abilities.innerText = "Abilities: " + data.abilities[i].ability.name[0].toUpperCase() + data.abilities[i].ability.name.substring(1);
                 break;
             default:
                 abilities.innerText += ", " + data.abilities[i].ability.name[0].toUpperCase() + data.abilities[i].ability.name.substring(1);
@@ -112,7 +112,7 @@ const PopPoke = async (data) => {
                 for (let j = 0; j < allCapsMove.length; j++) {
                     allCapsMove[j] = allCapsMove[j][0].toUpperCase() + allCapsMove[j].substring(1);
                 }
-                movesPoke.innerText = allCapsMove.join("-");
+                movesPoke.innerText = "Moves: " + allCapsMove.join("-");
                 break;
             default:
                 let allCapsMoveFollow = data.moves[i].move.name.split("-");
@@ -143,7 +143,7 @@ const popLocate = async (topData) => {
     };
 };
 
-//Is called in the popPoke, fetches data needed to populate the evolution tree
+//Is called in the popPoke, fetches data needed to populate the evolution tree. Don't look into the abyss.
 const popEvol = async (topData) => {
     const promiseOne = await fetch(`${topData.species.url}`);
     const dataOne = await promiseOne.json();
@@ -154,8 +154,8 @@ const popEvol = async (topData) => {
     if (dataTwo?.chain?.evolves_to[0]?.species?.name !== undefined) {
         const promValy1 = await fetch(`${dataTwo.chain.evolves_to[0].species.url}`);
         const dataValy1 = await promValy1.json();
-        if (dataValy1.id < 649) {
-            evol.innerText = dataTwo.chain.species.name[0].toUpperCase() + dataTwo.chain.species.name.substring(1);
+        if (dataValy1.id < 650) {
+            evol.innerText = "Evolution: " + dataTwo.chain.species.name[0].toUpperCase() + dataTwo.chain.species.name.substring(1);
             for (let i = 0; i < dataTwo.chain.evolves_to.length; i++) {
                 switch (i) {
                     case 0:
@@ -166,14 +166,14 @@ const popEvol = async (topData) => {
                                     case 0:
                                         const promValyInner1 = await fetch(`${dataTwo.chain.evolves_to[0].evolves_to[0].species.url}`);
                                         const dataValyInner1 = await promValyInner1.json();
-                                        if (dataValyInner1.id < 649) {
+                                        if (dataValyInner1.id < 650) {
                                             evol.innerText += " to " + dataTwo.chain.evolves_to[0].evolves_to[0].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[0].evolves_to[0].species.name.substring(1);
                                         };
                                         break;
                                     default:
                                         const promValyInner2 = await fetch(`${dataTwo.chain.evolves_to[0].evolves_to[j].species.url}`);
                                         const dataValyInner2 = await promValyInner2.json();
-                                        if (dataValyInner2.id < 649) {
+                                        if (dataValyInner2.id < 650) {
                                             evol.innerText += "; " + dataTwo.chain.evolves_to[0].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[0].species.name.substring(1) + " to " + dataTwo.chain.evolves_to[0].evolves_to[j].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[0].evolves_to[j].species.name.substring(1);
                                         };
                                         break;
@@ -184,7 +184,7 @@ const popEvol = async (topData) => {
                     default:
                         const promValy2 = await fetch(`${dataTwo.chain.evolves_to[i].species.url}`);
                         const dataValy2 = await promValy2.json();
-                        if (dataValy2.id < 649) {
+                        if (dataValy2.id < 650) {
                             evol.innerText += "; " + dataTwo.chain.species.name[0].toUpperCase() + dataTwo.chain.species.name.substring(1) + " to " + dataTwo.chain.evolves_to[i].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[i].species.name.substring(1);
                             if (dataTwo?.chain?.evolves_to[i]?.evolves_to[0]?.species?.name !== undefined) {
                                 for (let j = 0; j < dataTwo.chain.evolves_to[i].evolves_to.length; j++) {
@@ -192,14 +192,14 @@ const popEvol = async (topData) => {
                                         case 0:
                                             const promValyInner3 = await fetch(`${dataTwo.chain.evolves_to[i].evolves_to[0].species.url}`);
                                             const dataValyInner3 = await promValyInner3.json();
-                                            if (dataValyInner3.id < 649) {
+                                            if (dataValyInner3.id < 650) {
                                                 evol.innerText += " to " + dataTwo.chain.evolves_to[i].evolves_to[0].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[i].evolves_to[0].species.name.substring(1);
                                             };
                                             break;
                                         default:
                                             const promValyInner4 = await fetch(`${dataTwo.chain.evolves_to[i].evolves_to[j].species.url}`);
                                             const dataValyInner4 = await promValyInner4.json();
-                                            if (dataValyInner4.id < 649) {
+                                            if (dataValyInner4.id < 650) {
                                                 evol.innerText += "; " + dataTwo.chain.evolves_to[i].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[i].species.name.substring(1) + " to " + dataTwo.chain.evolves_to[i].evolves_to[j].species.name[0].toUpperCase() + dataTwo.chain.evolves_to[i].evolves_to[j].species.name.substring(1);
                                             };
                                             break;
@@ -211,10 +211,10 @@ const popEvol = async (topData) => {
                 };
             };
         } else {
-            evol.innerText = "N/A"
+            evol.innerText = "Evolution: N/A"
         };
     } else {
-        evol.innerText = "N/A"
+        evol.innerText = "Evolution: N/A"
     };
 };
 
