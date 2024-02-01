@@ -277,7 +277,7 @@ favBtn.addEventListener("click", function (e) {
 
 searchInput.addEventListener("click", function (e) {
     openFav.innerHTML = "";
-    if (faveClosed) {
+    if (faveClosed && savedPokemonArray !== "") {
         openFav.style.display = "block";
 
         for (let i = 0; i < savedPokemonArray.length; i++) {
