@@ -312,4 +312,4 @@ searchInput.addEventListener("click", function (e) {
 });
 
 //Calls on pokemon id#1 every time the website is loaded
-// FetchPoke(1);
+FetchPoke(1);

@@ -1093,6 +1093,178 @@ input:checked + .toggle-bg {
   top: 0px;
 }
 
+.right-5 {
+  right: 1.25rem;
+}
+
+.left-5 {
+  left: 1.25rem;
+}
+
+.left-32 {
+  left: 8rem;
+}
+
+.left-52 {
+  left: 13rem;
+}
+
+.left-4 {
+  left: 1rem;
+}
+
+.left-44 {
+  left: 11rem;
+}
+
+.top-3 {
+  top: 0.75rem;
+}
+
+.top-36 {
+  top: 9rem;
+}
+
+.top-8 {
+  top: 2rem;
+}
+
+.top-80 {
+  top: 20rem;
+}
+
+.top-7 {
+  top: 1.75rem;
+}
+
+.top-72 {
+  top: 18rem;
+}
+
+.right-44 {
+  right: 11rem;
+}
+
+.bottom-72 {
+  bottom: 18rem;
+}
+
+.bottom-64 {
+  bottom: 16rem;
+}
+
+.bottom-4 {
+  bottom: 1rem;
+}
+
+.bottom-44 {
+  bottom: 11rem;
+}
+
+.bottom-40 {
+  bottom: 10rem;
+}
+
+.bottom-80 {
+  bottom: 20rem;
+}
+
+.bottom-6 {
+  bottom: 1.5rem;
+}
+
+.bottom-60 {
+  bottom: 15rem;
+}
+
+.bottom-5 {
+  bottom: 1.25rem;
+}
+
+.bottom-56 {
+  bottom: 14rem;
+}
+
+.bottom-7 {
+  bottom: 1.75rem;
+}
+
+.right-40 {
+  right: 10rem;
+}
+
+.right-52 {
+  right: 13rem;
+}
+
+.right-32 {
+  right: 8rem;
+}
+
+.right-3 {
+  right: 0.75rem;
+}
+
+.right-2 {
+  right: 0.5rem;
+}
+
+.right-28 {
+  right: 7rem;
+}
+
+.bottom-52 {
+  bottom: 13rem;
+}
+
+.bottom-2 {
+  bottom: 0.5rem;
+}
+
+.bottom-48 {
+  bottom: 12rem;
+}
+
+.right-6 {
+  right: 1.5rem;
+}
+
+.right-64 {
+  right: 16rem;
+}
+
+.right-60 {
+  right: 15rem;
+}
+
+.left-3 {
+  left: 0.75rem;
+}
+
+.left-36 {
+  left: 9rem;
+}
+
+.bottom-3 {
+  bottom: 0.75rem;
+}
+
+.bottom-36 {
+  bottom: 9rem;
+}
+
+.bottom-24 {
+  bottom: 6rem;
+}
+
+.bottom-1 {
+  bottom: 0.25rem;
+}
+
+.bottom-16 {
+  bottom: 4rem;
+}
+
 .z-10 {
   z-index: 10;
 }
@@ -1221,6 +1393,10 @@ input:checked + .toggle-bg {
   display: none;
 }
 
+.h-10 {
+  height: 2.5rem;
+}
+
 .h-12 {
   height: 3rem;
 }
@@ -1253,12 +1429,20 @@ input:checked + .toggle-bg {
   width: 50%;
 }
 
+.w-10 {
+  width: 2.5rem;
+}
+
 .w-11\/12 {
   width: 91.666667%;
 }
 
 .w-12 {
   width: 3rem;
+}
+
+.w-20 {
+  width: 5rem;
 }
 
 .w-4 {
@@ -1283,6 +1467,38 @@ input:checked + .toggle-bg {
 
 .w-9 {
   width: 2.25rem;
+}
+
+.w-14 {
+  width: 3.5rem;
+}
+
+.w-6 {
+  width: 1.5rem;
+}
+
+.w-7 {
+  width: 1.75rem;
+}
+
+.w-40 {
+  width: 10rem;
+}
+
+.w-3 {
+  width: 0.75rem;
+}
+
+.w-32 {
+  width: 8rem;
+}
+
+.w-2 {
+  width: 0.5rem;
+}
+
+.w-28 {
+  width: 7rem;
 }
 
 .flex-1 {
@@ -1538,6 +1754,21 @@ input:checked + .toggle-bg {
 .py-3 {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
+}
+
+.py-10 {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.py-6 {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+}
+
+.py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
 }
 
 .pb-5 {
@@ -1959,6 +2190,10 @@ body {
     width: 20rem;
   }
 
+  .sm\:w-14 {
+    width: 3.5rem;
+  }
+
   .sm\:rounded-3xl {
     border-radius: 1.5rem;
   }
@@ -1984,6 +2219,26 @@ body {
 }
 
 @media (min-width: 1024px) {
+  .lg\:visible {
+    visibility: visible;
+  }
+
+  .lg\:absolute {
+    position: absolute;
+  }
+
+  .lg\:left-44 {
+    left: 11rem;
+  }
+
+  .lg\:top-72 {
+    top: 18rem;
+  }
+
+  .lg\:right-44 {
+    right: 11rem;
+  }
+
   .lg\:mx-0 {
     margin-left: 0px;
     margin-right: 0px;
