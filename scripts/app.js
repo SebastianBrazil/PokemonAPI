@@ -53,7 +53,7 @@ const FetchPoke = async (input) => {
 };
 
 //Calls on pokemon id#1 every time the website is loaded
-// FetchPoke(1);
+FetchPoke(1);
 
 //Calls on the fetch function using an image click
 searchBtn.addEventListener('click', () => {
@@ -137,9 +137,9 @@ const popLocate = async (topData) => {
         for (let i = 0; i < locationName.length; i++) {
             locationName[i] = locationName[i][0].toUpperCase() + locationName[i].substring(1);
         }
-        findLocation.innerText = locationName.join(" ") + ", Pokemon " + data[0].version_details[0].version.name[0].toUpperCase() + data[0].version_details[0].version.name.substring(1);
+        findLocation.innerText = "Location: " + locationName.join(" ") + ", Pokemon " + data[0].version_details[0].version.name[0].toUpperCase() + data[0].version_details[0].version.name.substring(1);
     } else {
-        findLocation.innerText = "N/A";
+        findLocation.innerText = "Location: N/A";
     };
 };
 

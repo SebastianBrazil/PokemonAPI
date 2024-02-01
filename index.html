@@ -9,35 +9,48 @@
 </head>
 
 <body>
-    <div class="bgColor mt-32 mb-20 mx-96">
+    <div class="flex justify-center">
+        <div class="bgColor mt-20 mb-16 w-3/5">
+            <div class="pt-8 flex justify-center">
+                <p id="namePoke" class="text-5xl kotta text-center">Pokemon Name</p>
+                <img id="favBtn" class="w-12 h-12 ml-5" src="./assets/heartOut.png" alt="Favorite Button">
+            </div>
+            <p id="idPoke" class="text-center text-2xl kotta">Pokemon ID</p>
 
-        <div class="pt-8 flex justify-center">
-            <p id="namePoke" class="text-5xl kotta text-center">Pokemon Name</p>
-            <img id="favBtn" class="w-12 h-12 m-" src="./assets/heartOut.png" alt="favorite btn">
+            <div class="flex justify-evenly">
+                <div class="grid grid-cols-1">
+                    <p class="text-center text-3xl kotta">Normal</p>
+                    <img id="normalFront" class="w-64 -my-8" src="" alt="Normal Image">
+                </div>
 
+                <div class="grid grid-cols-1">
+                    <p class="text-center text-3xl kotta">Shiny</p>
+                    <img id="shinyFront" class="w-64 -my-8" src="" alt="Shiny Image">
+                </div>
+            </div>
+
+            <p id="findLocation" class="mt-5 mb-16 text-center text-3xl kotta">location</p>
         </div>
-
-        <!-- <div class="grid grid-cols-12">
-            <img id="favBtn" class="col-start-9 col-end-10 flex justify-center" src="./assets/heartOut.png" alt="favorite btn">
-        </div> -->
-
-        <p id="idPoke" class="text-center text-2xl kotta">Pokemon ID</p>
-        <img id="normalFront" src="" alt="normal imeg">
-        <img id="shinyFront" src="" alt="shiny">
-        <p id="findLocation">location</p>
-
-
     </div>
-    <div class="bgColor mx-96">
-        <button id="randomPoke">random</button>
-        <input id="searchInput" type="text" placeholder="Search">
-        <img id="searchBtn" class="w-10 h-10" src="./assets/glass.png" alt="search btn">
-        <div id="openFav"></div>
-        <p id="response"></p>
-        <p id="eleType">element type</p>
-        <p id="abilities">all abilities</p>
-        <p id="movesPoke">all moves</p>
-        <p id="evol">all evolution paths</p>
+
+    <div class="flex justify-center">
+        <div class="bgColor w-3/5">
+            <div class="pt-8 flex justify-center">
+                <button id="randomPoke">random</button>
+                <input id="searchInput" type="text" placeholder="Search">
+                <img id="searchBtn" class="w-10 h-10" src="./assets/glass.png" alt="search btn">
+            </div>
+
+
+
+
+            <div id="openFav"></div>
+            <p id="response"></p>
+            <p id="eleType">element type</p>
+            <p id="abilities">all abilities</p>
+            <p id="movesPoke">all moves</p>
+            <p id="evol">all evolution paths</p>
+        </div>
     </div>
 
     <script src="./scripts/app.js"></script>
