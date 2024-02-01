@@ -13,8 +13,6 @@ let favBtn = document.getElementById("favBtn");
 let openFav = document.getElementById("openFav");
 let idPoke = document.getElementById("idPoke");
 let randomPoke = document.getElementById("randomPoke");
-let response = document.getElementById("response");
-// let adde = document.getElementById("adde");
 
 //Declares global variables
 let globalPoke = "";
@@ -33,10 +31,19 @@ const FetchPoke = async (input) => {
         const data = await promise.json();
 
         if (data.id > 649) {
-            // response.innerText = "Pokemon Is Not Available, Up To Gen 5 Only"
+            openFav.innerHTML = "";
+            openFav.style.display = "block";
+            let holderDiv = document.createElement("div");
+            holderDiv.className = "flex justify-start ml-5 mt-3 mb-3";
+
+            let response = document.createElement("p");
+            response.className = "text-left sm:text-2xl kotta";
+            response.textContent = "Pokemon Is Not Available, Up To Gen 5 Only";
+
+            holderDiv.appendChild(response);
+            openFav.appendChild(holderDiv);
         } else {
             globalPoke = data.name;
-            // response.innerText = "";
             searchInput.value = "";
             for (let i = 0; i < savedPokemonArray.length; i++) {
                 if (input === savedPokemonArray[i]) {
@@ -49,20 +56,39 @@ const FetchPoke = async (input) => {
             PopPoke(data);
         };
     } catch {
-        // response.innerText = "Could Not Get Pokemon. Check Spelling Or Input Valid ID"
+        openFav.innerHTML = "";
+        openFav.style.display = "block";
+        let holderDiv = document.createElement("div");
+        holderDiv.className = "flex justify-start ml-5 mt-3 mb-3";
+
+        let response = document.createElement("p");
+        response.className = "text-left sm:text-2xl kotta";
+        response.textContent = "Could Not Get Pokemon. Check Spelling Or Input Valid ID";
+
+        holderDiv.appendChild(response);
+        openFav.appendChild(holderDiv);
     };
 };
 
 //Calls on the fetch function using an image click
 searchBtn.addEventListener('click', () => {
+    openFav.innerHTML = "";
     if (searchInput.value.toLowerCase() !== "") {
         FetchPoke(searchInput.value.toLowerCase());
+        openFav.style.display = "none";
     } else {
-        // response.innerText = "Search is Empty";
+        openFav.style.display = "block";
+        let holderDiv = document.createElement("div");
+        holderDiv.className = "flex justify-start ml-5 mt-3 mb-3";
+
+        let response = document.createElement("p");
+        response.className = "text-left sm:text-2xl kotta";
+        response.textContent = "Search is Empty";
+
+        holderDiv.appendChild(response);
+        openFav.appendChild(holderDiv);
     };
-    openFav.innerHTML = "";
     faveClosed = true;
-    openFav.style.display = "none";
 });
 
 //Calls on the fetch function and inputs a random ID number
@@ -146,7 +172,7 @@ const popLocate = async (topData) => {
                 locationName[i] = locationName[i][0].toUpperCase() + locationName[i].substring(1);
             }
             findLocation.innerText = "Location: " + locationName.join(" ") + ", Pokemon " + data[0].version_details[0].version.name[0].toUpperCase() + data[0].version_details[0].version.name.substring(1);
-        } else { 
+        } else {
             findLocation.innerText = "Location: N/A";
         }
     } else {
@@ -253,7 +279,7 @@ searchInput.addEventListener("click", function (e) {
     openFav.innerHTML = "";
     if (faveClosed) {
         openFav.style.display = "block";
-        
+
         for (let i = 0; i < savedPokemonArray.length; i++) {
             let holderDiv = document.createElement("div");
             holderDiv.className = "flex justify-start ml-5 mt-3 mb-3";
