@@ -14,6 +14,7 @@ let openFav = document.getElementById("openFav");
 let idPoke = document.getElementById("idPoke");
 let randomPoke = document.getElementById("randomPoke");
 let response = document.getElementById("response");
+// let adde = document.getElementById("adde");
 
 //Declares global variables
 let globalPoke = "";
@@ -32,10 +33,10 @@ const FetchPoke = async (input) => {
         const data = await promise.json();
 
         if (data.id > 649) {
-            response.innerText = "Pokemon Is Not Available, Up To Gen 5 Only"
+            // response.innerText = "Pokemon Is Not Available, Up To Gen 5 Only"
         } else {
             globalPoke = data.name;
-            response.innerText = "";
+            // response.innerText = "";
             searchInput.value = "";
             for (let i = 0; i < savedPokemonArray.length; i++) {
                 if (input === savedPokemonArray[i]) {
@@ -48,22 +49,20 @@ const FetchPoke = async (input) => {
             PopPoke(data);
         };
     } catch {
-        response.innerText = "Could Not Get Pokemon. Check Spelling Or Input Valid ID"
+        // response.innerText = "Could Not Get Pokemon. Check Spelling Or Input Valid ID"
     };
 };
-
-//Calls on pokemon id#1 every time the website is loaded
-// FetchPoke(1);
 
 //Calls on the fetch function using an image click
 searchBtn.addEventListener('click', () => {
     if (searchInput.value.toLowerCase() !== "") {
         FetchPoke(searchInput.value.toLowerCase());
     } else {
-        response.innerText = "Search is Empty";
+        // response.innerText = "Search is Empty";
     };
     openFav.innerHTML = "";
     faveClosed = true;
+    openFav.style.display = "none";
 });
 
 //Calls on the fetch function and inputs a random ID number
@@ -71,6 +70,8 @@ randomPoke.addEventListener('click', () => {
     let randomNum = 1 + Math.floor(Math.random() * 649);
     FetchPoke(randomNum);
     openFav.innerHTML = "";
+    faveClosed = true;
+    openFav.style.display = "none";
 });
 
 //Populates all necessary information onto the page
@@ -133,11 +134,21 @@ const popLocate = async (topData) => {
     const data = await promise.json();
 
     if (data[0]?.location_area?.name !== undefined) {
-        let locationName = data[0].location_area.name.split("-");
-        for (let i = 0; i < locationName.length; i++) {
-            locationName[i] = locationName[i][0].toUpperCase() + locationName[i].substring(1);
+        const promise2 = await fetch(`${data[0].location_area.url}`);
+        const data2 = await promise2.json();
+
+        const promise3 = await fetch(`${data2.location.url}`);
+        const data3 = await promise3.json();
+
+        if (data3.id < 567) {
+            let locationName = data[0].location_area.name.split("-");
+            for (let i = 0; i < locationName.length; i++) {
+                locationName[i] = locationName[i][0].toUpperCase() + locationName[i].substring(1);
+            }
+            findLocation.innerText = "Location: " + locationName.join(" ") + ", Pokemon " + data[0].version_details[0].version.name[0].toUpperCase() + data[0].version_details[0].version.name.substring(1);
+        } else { 
+            findLocation.innerText = "Location: N/A";
         }
-        findLocation.innerText = "Location: " + locationName.join(" ") + ", Pokemon " + data[0].version_details[0].version.name[0].toUpperCase() + data[0].version_details[0].version.name.substring(1);
     } else {
         findLocation.innerText = "Location: N/A";
     };
@@ -241,28 +252,38 @@ favBtn.addEventListener("click", function (e) {
 searchInput.addEventListener("click", function (e) {
     openFav.innerHTML = "";
     if (faveClosed) {
-        let holderDiv = document.createElement("div");
-        holderDiv.className = "searchBox";
-
+        openFav.style.display = "block";
+        
         for (let i = 0; i < savedPokemonArray.length; i++) {
-            let favedPoke = document.createElement("a");
-            favedPoke.className = "";
-            favedPoke.textContent = savedPokemonArray[i]
-
-            favedPoke.addEventListener("click", function (e) {
-                FetchPoke(favedPoke.innerText);
+            let holderDiv = document.createElement("div");
+            holderDiv.className = "flex justify-start ml-5 mt-3 mb-3";
+            holderDiv.addEventListener("click", function (e) {
+                FetchPoke(savedPokemonArray[i]);
                 openFav.innerHTML = "";
                 faveClosed = true;
+                openFav.style.display = "none";
             });
+
+            let favedPoke = document.createElement("p");
+            favedPoke.className = "text-left sm:text-2xl kotta";
+            favedPoke.textContent = savedPokemonArray[i][0].toUpperCase() + savedPokemonArray[i].substring(1);
+
+            let favedImg = document.createElement("img")
+            favedImg.className = "w-8 h-8 ml-3";
+            favedImg.src = "./assets/heart.png"
+            favedImg.alt = "Favorite Image Inside Favorite List";
+
             holderDiv.appendChild(favedPoke);
+            holderDiv.appendChild(favedImg);
+            openFav.appendChild(holderDiv);
         };
-        openFav.appendChild(holderDiv);
+
         faveClosed = false;
     } else {
+        openFav.style.display = "none";
         faveClosed = true;
     };
 });
 
-
-
-
+//Calls on pokemon id#1 every time the website is loaded
+// FetchPoke(1);

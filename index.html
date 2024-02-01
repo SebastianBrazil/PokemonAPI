@@ -10,57 +10,69 @@
 
 <body>
     <div class="flex justify-center">
-        <div class="bgColor mt-20 mb-16 w-3/5">
+        <div class="bgColor mt-16 sm:mt-20 mb-12 lg:mb-16 w-11/12 lg:w-3/5">
             <div class="pt-8 flex justify-center">
-                <p id="namePoke" class="text-5xl kotta text-center">Pokemon Name</p>
-                <img id="favBtn" class="w-12 h-12 ml-5" src="./assets/heartOut.png" alt="Favorite Button">
+                <p id="namePoke" class="text-4xl sm:text-5xl kotta text-center">Pokemon Name</p>
+                <img id="favBtn" class="w-9 h-9 sm:w-12 sm:h-12 ml-5" src="./assets/heartOut.png" alt="Favorite Button">
             </div>
-            <p id="idPoke" class="text-center text-2xl kotta pt-3">Pokemon ID</p>
+            <p id="idPoke" class="text-center text-lg sm:text-2xl kotta pt-3 pb-5 lg:pb-0">Pokemon ID</p>
 
-            <div class="flex justify-evenly">
+            <div class="grid lg:flex justify-evenly">
                 <div class="grid grid-cols-1">
-                    <p class="text-center text-3xl kotta">Normal</p>
-                    <img id="normalFront" class="w-64 -my-8" src="" alt="Normal Image">
+                    <p class="text-center text-xl lg:text-3xl kotta">Normal</p>
+                    <img id="normalFront" class="w-52 sm:w-64 -my-6" src="" alt="Normal Image">
                 </div>
 
                 <div class="grid grid-cols-1">
-                    <p class="text-center text-3xl kotta">Shiny</p>
-                    <img id="shinyFront" class="w-64 -my-8" src="" alt="Shiny Image">
+                    <p class="text-center text-xl lg:text-3xl kotta">Shiny</p>
+                    <img id="shinyFront" class="w-52 sm:w-64 -my-6" src="" alt="Shiny Image">
                 </div>
             </div>
 
-            <p id="findLocation" class="mt-5 mb-16 text-center text-3xl kotta">location</p>
+            <p id="findLocation" class="mx-10 sm:mx-0 mt-5 mb-10 text-center text-xl sm:text-3xl kotta">
+                location</p>
         </div>
     </div>
 
-    <div class="flex justify-center">
-        <div class="bgColor w-3/5">
+    <div class="flex justify-center mb-7">
+        <div class="bgColor w-11/12 lg:w-3/5">
             <div class="pt-8 flex justify-center">
                 <button id="randomPoke"
-                    class="randColor w-16 h-16 rounded-3xl flex justify-center items-center border border-black"> <img
-                        class="w-11 h-11" src="./assets/ytknick-A-die.png" alt=""> </button>
-                <input class="searchColor w-80 h-16 mx-2 rounded-3xl border border-black text-2xl kotta"
+                    class="randColor w-12 h-12 sm:w-16 sm:h-16 rounded-2xl sm:rounded-3xl flex justify-center items-center border border-black">
+                    <img class="sm:w-11 sm:h-11 w-9 h-9" src="./assets/ytknick-A-die.png" alt=""> </button>
+                <input
+                    class="searchColor w-56 h-12 sm:w-80 sm:h-16 mx-2 rounded-2xl sm:rounded-3xl border border-black sm:text-2xl kotta"
                     id="searchInput" type="text" placeholder="Search Name Or ID: ">
-                <img id="searchBtn" class="w-10 h-10 mt-3" src="./assets/glass.png" alt="search btn">
+                <img id="searchBtn" class="sm:w-10 sm:h-10 w-8 h-8 mt-2 sm:mt-3" src="./assets/glass.png"
+                    alt="search btn">
             </div>
 
             <div class="flex justify-center">
-                <div id="openFav" class=""></div>
+                <div id="openFav" style="display: block;" class="ml-6 sm:ml-8 mx-2 favoritesColor w-56 sm:w-80 rounded-2xl sm:rounded-3xl border border-black">
+                    <div id="adde" class="flex justify-start ml-5 mt-3 mb-3">
+                        <p class="text-left sm:text-2xl kotta">Bulbasaur</p>
+                        <img class="w-8 h-8 ml-3" src="./assets/heart.png" alt="Favorite Image Inside Favorite List">
+                    </div>
+
+
+
+
+
+                </div>
             </div>
 
-            <div class="grid grid-cols-2 mt-8">
-                <div class="ml-32 pr-5">
-                    <p id="eleType" class="text-2xl kotta h-20 overflow-scroll">element type</p>
-                    <p id="abilities" class="text-2xl kotta h-20 overflow-scroll">all abilities</p>
-                    <p id="evol" class="text-2xl kotta h-20 overflow-scroll">all evolution paths</p>
+            <div class="grid justify-evenly lg:grid-cols-2 mt-8">
+                <div class="mx-8 sm:mx-36 lg:mx-0 lg:ml-32 lg:pr-5">
+                    <p id="eleType" class="text-xl sm:text-2xl kotta sm:h-20 h-16 mt-5 overflow-y-auto">element type</p>
+                    <p id="abilities" class="text-xl sm:text-2xl kotta h-16 sm:h-20 overflow-y-auto">all abilities</p>
+                    <p id="evol" class="text-xl sm:text-2xl kotta h-16 sm:h-20 mb-4 sm:mb-8 overflow-y-auto">all
+                        evolution paths</p>
                 </div>
-                <div class="mr-32">
-                    <p class="h-52 mb-20 text-2xl kotta overflow-scroll" id="movesPoke">all moves</p>
+                <div class="mx-8 sm:mx-36 lg:mx-0 lg:mr-32">
+                    <p class="h-52 mb-10 sm:mb-14 lg:mb-20 text-xl sm:text-2xl kotta overflow-y-auto" id="movesPoke">all
+                        moves</p>
                 </div>
             </div>
-
-            <p id="response"></p>
-
         </div>
     </div>
 
