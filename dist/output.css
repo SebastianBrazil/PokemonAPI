@@ -1077,8 +1077,8 @@ input:checked + .toggle-bg {
   bottom: 0px;
 }
 
-.bottom-16 {
-  bottom: 4rem;
+.bottom-24 {
+  bottom: 6rem;
 }
 
 .bottom-48 {
@@ -1157,9 +1157,9 @@ input:checked + .toggle-bg {
   z-index: 50;
 }
 
-.-my-6 {
-  margin-top: -1.5rem;
-  margin-bottom: -1.5rem;
+.-my-3 {
+  margin-top: -0.75rem;
+  margin-bottom: -0.75rem;
 }
 
 .mx-10 {
@@ -1313,8 +1313,8 @@ input:checked + .toggle-bg {
   width: 1rem;
 }
 
-.w-52 {
-  width: 13rem;
+.w-44 {
+  width: 11rem;
 }
 
 .w-56 {
@@ -2008,8 +2008,8 @@ body {
     width: 4rem;
   }
 
-  .sm\:w-64 {
-    width: 16rem;
+  .sm\:w-52 {
+    width: 13rem;
   }
 
   .sm\:w-80 {
@@ -2087,14 +2087,18 @@ body {
     line-height: 2.25rem;
   }
 
-  .lg\:movePls1{
-    left: 40.7%;
+  .lg\:movePls4{
+    left: 37.5%;
   }
 }
 
 @media (min-width: 1536px) {
   .\32xl\:visible {
     visibility: visible;
+  }
+
+  .\32xl\:movePls1{
+    left: 40.7%;
   }
 }
 

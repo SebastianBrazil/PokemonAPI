@@ -46,7 +46,7 @@ const FetchPoke = async (input) => {
             globalPoke = data.name;
             searchInput.value = "";
             for (let i = 0; i < savedPokemonArray.length; i++) {
-                if (input === savedPokemonArray[i]) {
+                if (globalPoke === savedPokemonArray[i]) {
                     favBtn.src = "./assets/heart.png"
                     break;
                 } else {
@@ -102,8 +102,8 @@ randomPoke.addEventListener('click', () => {
 
 //Populates all necessary information onto the page
 const PopPoke = async (data) => {
-    normalFront.src = data.sprites.front_default;
-    shinyFront.src = data.sprites.front_shiny;
+    normalFront.src = data.sprites.other["official-artwork"].front_default;
+    shinyFront.src = data.sprites.other["official-artwork"].front_shiny;
 
     namePoke.innerText = data.name[0].toUpperCase() + data.name.substring(1);
     idPoke.innerText = "ID: #" + data.id;
